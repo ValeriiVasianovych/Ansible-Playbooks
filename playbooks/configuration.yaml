@@ -1,0 +1,93 @@
+---
+- name: 'My own configuration file for Ubuntu'
+  hosts: group2
+  become: true
+
+  vars:
+     packages:
+        - git
+        - neovim
+        - zsh
+        - tmux
+        - htop
+        - neofetch
+        - figlet
+        - curl
+
+     config_files:
+        - .zshrc
+        - .zsh_aliases
+        - .bashrc
+        - .bash_aliases
+        - .tmux.conf
+        - .tmux.conf.local
+
+  tasks:
+     - name: 'Update apt cache'
+       apt:
+         update_cache: yes
+
+     - name: 'Upgrade packages'
+       apt:
+         upgrade: yes
+         autoremove: yes
+         autoclean: yes
+
+     - name: 'Install packages'
+       apt:
+          name: '{{ packages }}'
+          state: present
+
+     - name: 'Install oh-my-zsh if not installed'
+       shell: test -d "$ZSH" || sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+       args:
+          executable: /bin/bash
+       ignore_errors: yes
+
+     - name: 'Copy git repository with all configuration files'
+       git:
+          repo: 'https://github.com/ValeriiVasianovych/Linux-Terminal-Configuration.git'
+          dest: '/home/ubuntu/Linux-Terminal-Configuration'
+
+     - name: 'Copy files to home directory'
+       copy:
+          src: '/home/ubuntu/Linux-Terminal-Configuration/{{ item }}'
+          dest: '/home/ubuntu/{{ item }}'
+          remote_src: true
+       with_items: '{{ config_files }}'
+
+     - name: 'Create neovim config directory'
+       copy:
+          src: '/home/ubuntu/Linux-Terminal-Configuration/.config'
+          dest: '/home/ubuntu/.config'
+          remote_src: true
+
+     - name: 'Install vim-plug'
+       shell: 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+     - name: 'Install and update plugins'
+       shell: 'nvim +PlugInstall +qall && nvim +PlugUpdate +qall'
+
+       - name: 'Restart .zshrc'
+         shell: 'bash -lc "source ~/.zshrc"'
+
+       - name: 'Restart .bashrc'
+         shell: 'bash -lc "source ~/.bashrc"'
+
+       - name: 'Restart .tmux.conf'
+         shell: 'bash -lc "tmux source-file ~/.tmux.conf"'
+
+       - name: 'Restart .tmux.conf.local'
+         shell: 'bash -lc "tmux source-file ~/.tmux.conf.local"'
+
+       - name: 'Restart .zsh_aliases'
+         shell: 'bash -lc "source ~/.zsh_aliases"'
+
+       - name: 'Restart .bash_aliases'
+         shell: 'bash -lc "source ~/.bash_aliases"'
+
+       - name: 'Restart .config/nvim/init.vim'
+         shell: 'bash -lc "source ~/.config/nvim/init.vim"'
+
+       - name: 'Figlet status'
+         shell: 'figlet "Configuration completed!"'
