@@ -1,2 +1,3 @@
 # Ansible .cfg file
 ansible.cfg
+test_playbooks/
