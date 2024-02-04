@@ -1,0 +1,64 @@
+- name: 'NGINX Reverse-Proxy Configuration in Containers'
+  hosts: group4
+  become: true
+
+  vars:
+     packages:
+        - neovim
+        - net-tools
+        - git
+        - htop
+        - dnsutils
+        - pwgen
+        - nmon
+        - gnupg
+        - wget
+        - neofetch
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+        - python3-pip
+        - virtualenv
+        - python3-setuptools
+        - runc
+
+  tasks:
+     - name: 'Update package list'
+       apt:
+          update_cache: yes
+
+     - name: 'Upgrade all installed packages'
+       apt:
+          upgrade: dist
+
+     - name: 'Install packages'
+       apt:
+          name: '{{ packages }}'
+          state: present
+
+     - name: 'Add user to docker group'
+       user:
+          name: '{{ ansible_user | default("default_user") }}'
+          groups: docker
+          append: yes
+
+     - name: 'Change permissions of /var/run/docker.sock'
+       file:
+          path: /var/run/docker.sock
+          mode: 0777
+
+     - name: 'Restart docker service'
+       service:
+          name: docker
+          state: restarted
+
+     - name: 'Copy all files to server in home directory'
+       copy:
+          src: /home/user/ansible/playbooks/reverse-proxy-infrastructure
+          dest: /home/{{ ansible_user }}
+
+     - name: 'Build and run containers'
+       command: docker-compose up -d
+       args:
+          chdir: /home/{{ ansible_user }}/reverse-proxy-infrastructure

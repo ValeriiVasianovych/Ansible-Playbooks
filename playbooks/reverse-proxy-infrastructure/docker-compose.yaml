@@ -1,0 +1,38 @@
+version: '3'
+services:
+   reverse-proxy-container:
+      container_name: reverse-proxy
+      build:
+         context: ./reverse-proxy-nginx-container
+         dockerfile: Dockerfile
+      ports:
+         - '80:80'
+         - '443:443'
+      volumes:
+         - reverse-proxy-nginx-container:/etc/nginx/conf.d
+         - /var/run/docker.sock:/tmp/docker.sock:ro
+
+   production-nginx-container:
+      container_name: production
+      build:
+         context: ./production-nginx-container
+         dockerfile: Dockerfile
+      ports:
+         - '8081:80'
+      volumes:
+         - production-nginx-container:/usr/share/nginx/html
+
+   development-nginx-container:
+      container_name: development
+      build:
+         context: ./development-nginx-container
+         dockerfile: Dockerfile
+      ports:
+         - '8082:80'
+      volumes:
+         - development-nginx-container:/usr/share/nginx/html
+
+volumes:
+   reverse-proxy-nginx-container:
+   production-nginx-container:
+   development-nginx-container:

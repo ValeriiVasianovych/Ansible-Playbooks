@@ -1,3 +1,15 @@
 # Ansible .cfg file
 ansible.cfg
+
+# Ansible hosts file
+inventory
+
+# test playbooks
 test_playbooks/
+
+# src files
+src_files/
+
+# roles
+roles/
+
