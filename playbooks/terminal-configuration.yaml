@@ -1,54 +1,27 @@
----
-- name: 'My own configuration file for Ubuntu'
-  hosts: group2
-  become: true
+# ---
+# - name: 'My own configuration file for Ubuntu'
+#   hosts: group2
+#   become: true
 
-  vars:
-     packages:
-        - git
-        - neovim
-        - zsh
-        - tmux
-        - htop
-        - neofetch
-        - figlet
-        - curl
+#   vars:
+#      packages:
+#         - git
+#         - neovim
+#         - zsh
+#         - tmux
+#         - htop
+#         - neofetch
+#         - figlet
+#         - curl
+#         - net-tools
+#         - wget
 
-     config_files:
-        - .zshrc
-        - .zsh_aliases
-        - .bashrc
-        - .bash_aliases
-        - .tmux.conf
-        - .tmux.conf.local
+#   tasks:
+#      - name: 'Update apt cache'
+#        apt:
+#           update_cache: yes
 
-  tasks:
-     - name: Update package list
-       apt:
-          update_cache: yes
-
-     - name: Upgrade all installed packages
-       apt:
-          upgrade: dist
-
-     - name: Install additional packages
-       apt:
-          name: '{{ packages }}'
-          state: present
-
-     - name: Download Oh My Zsh install script
-       get_url:
-          url: 'https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh'
-          dest: '/tmp/ohmyzsh_install.sh'
-          mode: '0755'
-
-     - name: Run Oh My Zsh install script
-       shell:
-          cmd: '/tmp/ohmyzsh_install.sh'
-       args:
-          creates: '{{ ansible_user_dir }}/.oh-my-zsh' # Check if Oh My Zsh is already installed
-
-     - name: Remove downloaded script
-       file:
-          path: '/tmp/ohmyzsh_install.sh'
-          state: absent
+#      - name: 'Install packages'
+#        apt:
+#           name: '{{ packages }}'
+#           state: present

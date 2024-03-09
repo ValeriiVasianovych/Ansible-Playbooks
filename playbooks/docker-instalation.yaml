@@ -1,0 +1,51 @@
+---
+- name: "Install Docker"
+  hosts: all
+  become: true
+
+  vars:
+    packages:
+      - htop
+      - vim
+      - curl
+      - net-tools
+      - docker.io
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+
+  tasks:
+    - name: "Update packages"
+      apt:
+        update_cache: yes
+
+    - name: "Upgrade packages"
+      apt:
+        upgrade: yes     
+
+    - name: "Install packages"
+      apt:
+        name: "{{ packages }}"
+        state: present
+
+    - name: "Add user to docker group"
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+      
+    - name: "Start docker service"
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: "Docker version"
+      command: "docker --version"
+      register: docker_version
+
+    - name: "Run Hello World"
+      command: "docker run --rm hello-world"
+      register: hello_world
