@@ -9,8 +9,8 @@
 
     - name: "Upgrade packages"
       apt:
-        upgrade: yes     
-        
+        upgrade: yes
+
     - name: Install required packages
       ansible.builtin.apt:
         pkg:
@@ -24,7 +24,7 @@
       ansible.builtin.file:
         path: /etc/apt/keyrings
         state: directory
-        mode: '0755'
+        mode: "0755"
 
     - name: Add Docker's official GPG key
       ansible.builtin.apt_key:
@@ -32,17 +32,9 @@
         keyring: /etc/apt/keyrings/docker.gpg
         state: present
 
-    - name: Print architecture variables
-      ansible.builtin.debug:
-        msg: "Architecture: {{ ansible_architecture }}, Codename: {{ ansible_lsb.codename }}"
-
-    - name: Add Docker repository
-      ansible.builtin.apt_repository:
-        repo: >-
-          deb [arch={{ arch_mapping[ansible_architecture] | default(ansible_architecture) }}
-          signed-by=/etc/apt/keyrings/docker.gpg]
-          https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable
-        filename: docker
+    - name: Add Docker repository to apt sources
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
         state: present
 
     - name: Install Docker and related packages
