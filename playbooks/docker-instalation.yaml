@@ -91,6 +91,14 @@
       command: "docker pull valeriivasianovych/docker-nginx:latest"
       register: docker_pull
 
+    - name: "Docker pull reverse proxy image from my repository"
+      command: "docker pull valeriivasianovych/nginx-reverse-proxy:latest"
+      register: docker_pull_reverse_proxy
+
     - name: "Docker run image from my repository"
-      command: "docker run --rm --name my-nginx-container -d -p 80:80 valeriivasianovych/docker-nginx:latest"
+      command: "docker run --rm --name my-nginx-container -d -p 8080:80 valeriivasianovych/docker-nginx:latest"
       register: docker_run
+
+    - name: "Docker run reverse proxy image from my repository"
+      command: "docker run --rm --name reverse-proxy -d -p 80:80 valeriivasianovych/nginx-reverse-proxy:latest"
+      register: docker_run_reverse_proxy
