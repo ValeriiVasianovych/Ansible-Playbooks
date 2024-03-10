@@ -9,13 +9,13 @@
       aarch64: arm64
 
   tasks:
-    - name: "Update packages"
-      apt:
-        update_cache: yes
+    # - name: "Update packages"
+    #   apt:
+    #     update_cache: yes
 
-    - name: "Upgrade packages"
-      apt:
-        upgrade: yes
+    # - name: "Upgrade packages"
+    #   apt:
+    #     upgrade: yes
 
     - name: Install required packages
       ansible.builtin.apt:
