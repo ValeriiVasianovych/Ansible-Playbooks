@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Welcome to My Website</title>
+      <style>
+         body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+         }
+         header {
+            background-color: #ffd700;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+         }
+         h1 {
+            color: #333;
+            text-align: center;
+         }
+         .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+         }
+         p {
+            margin-bottom: 10px;
+         }
+         span {
+            font-weight: bold;
+         }
+      </style>
+   </head>
+   <body>
+      <header>
+         <h1><span> Welcome to My Website</span></h1>
+      </header>
+      <div class="container">
+         <p><span>This website is owned by</span> {{ owner }}.</p>
+         <p><span>Server IP address:</span> {{ ansible_host }}</p>
+         <p><span>Position:</span> {{ position }}</p>
+      </div>
+   </body>
+</html>

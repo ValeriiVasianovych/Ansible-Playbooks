@@ -1,8 +1,17 @@
+# Ignore ansible.cfg file
+ansible.cfg
+
+# Ignore inventory file
 inventory
 
+# Ignore test playbooks directory
 test_playbooks/
 
+# Ignore source files directory
 src_files/
 
-roles/
+# Ignore group variables directory
+group_vars/
 
+# Ignore hosts file
+hosts
