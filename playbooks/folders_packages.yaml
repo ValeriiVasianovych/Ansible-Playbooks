@@ -1,0 +1,31 @@
+---
+- name: Create folders and install packages
+  hosts: '{{ HOSTS }}'
+  become: true
+
+  vars:
+     packages:
+        - net-tools
+        - neovim
+        - git
+        - curl
+     dest: /home/{{ ansible_user }}/
+     dirs:
+        - folder1
+        - folder2
+        - folder3
+
+  tasks:
+     - name: Update packages
+       apt:
+          update_cache: yes
+
+     - name: Upgrade packages
+       apt:
+          upgrade: yes
+
+     - name: Include tasks to create folders
+       include_tasks: ../include/tasks/create_folders.yaml
+
+     - name: Include tasks to install packages
+       include_tasks: ../include/tasks/install_packages.yaml

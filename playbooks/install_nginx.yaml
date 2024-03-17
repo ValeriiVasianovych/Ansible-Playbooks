@@ -1,6 +1,6 @@
 ---
 - name: Install Nginx and Upload file
-  hosts: all
+  hosts: "{{ HOSTS }}"
   become: true
 
   roles:

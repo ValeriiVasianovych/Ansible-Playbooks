@@ -4,6 +4,9 @@
 ## Description
 This role installs Nginx and deploys a simple HTML file to the default web root directory.
 
+## Result
+![example-page](result.png)
+
 ## Requirements
 Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here.
 
