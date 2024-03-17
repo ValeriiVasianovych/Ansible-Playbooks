@@ -25,7 +25,7 @@
           upgrade: yes
 
      - name: Include tasks to create folders
-       include_tasks: ../include/tasks/create_folders.yaml
+       include_tasks: ../include/folders_packages/create_folders.yaml
 
      - name: Include tasks to install packages
-       include_tasks: ../include/tasks/install_packages.yaml
+       include_tasks: ../include/folders_packages/install_packages.yaml
