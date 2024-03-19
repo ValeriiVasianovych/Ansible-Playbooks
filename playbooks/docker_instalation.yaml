@@ -86,11 +86,4 @@
     - name: "Docker version"
       command: "docker --version"
       register: docker_version
-
-    - name: "Docker pull image from my repository"
-      command: "docker pull valeriivasianovych/docker-nginx:latest"
-      register: docker_pull
       
-    - name: "Docker run image from my repository"
-      command: "docker run --rm --name my-nginx-container -d -p 8080:80 valeriivasianovych/docker-nginx:latest"
-      register: docker_run
