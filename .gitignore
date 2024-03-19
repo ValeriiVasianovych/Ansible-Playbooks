@@ -1,6 +1,3 @@
-# Ignore ansible.cfg file
-ansible.cfg
-
 # Ignore inventory file
 inventory
 
