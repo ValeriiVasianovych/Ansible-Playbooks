@@ -21,7 +21,7 @@
 
      - name: 'Check folder in home dir'
        shell: ls -al /home/{{ ansible_user }}/folder1
-       register: folder_results
+       register: results
        failed_when: results.rc != 0
 
      - debug:
