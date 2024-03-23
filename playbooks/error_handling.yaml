@@ -25,4 +25,4 @@
        failed_when: results.rc != 0
 
      - debug:
-          var: folder_results
+          var: results
