@@ -1,0 +1,28 @@
+---
+- name: 'Error handler'
+  hosts: all
+  any_errors_fatal: true
+  become: true
+
+  tasks:
+     - name: Install unknown package
+       apt:
+          name: non-existing-package
+          state: latest
+       ignore_errors: yes
+
+     - name: Show home directory
+       shell: ls -al /home/{{ ansible_user }}
+       register: results
+       failed_when: "'file.txt' not in results.stdout"
+
+     - debug:
+          var: results
+
+     - name: 'Check folder in home dir'
+       shell: ls -al /home/{{ ansible_user }}/folder1
+       register: folder_results
+       failed_when: results.rc != 0
+
+     - debug:
+          var: folder_results

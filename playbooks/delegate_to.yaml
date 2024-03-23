@@ -1,0 +1,43 @@
+---
+- name: 'Delegate tasks to other hosts'
+  hosts: all
+  become: true
+
+  tasks:
+     - name: 'Update packages'
+       apt:
+          update_cache: yes
+
+     - name: 'Upgrade packages'
+       apt:
+          upgrade: yes
+
+     - name: Create user for Linux-1
+       user:
+          name: linux-one
+          shell: /bin/bash
+          groups: sudo
+          append: yes
+          home: /home/linux1
+          delegate_to: linux-1
+
+     - name: Create user for Linux-2
+       user:
+          name: linux-two
+          shell: /bin/bash
+          groups: sudo
+          append: yes
+          home: /home/linux2
+          delegate_to: linux-2
+
+     - name: 'Install Nginx'
+       apt:
+          name: nginx
+          state: present
+          update_cache: yes
+
+     - name: 'Handle Nginx service'
+       service:
+          name: nginx
+          state: started
+          enabled: yes

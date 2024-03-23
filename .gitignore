@@ -12,3 +12,9 @@ group_vars/
 
 # Ignore hosts file
 hosts
+
+# aws hosts file
+aws_ec2.yaml
+
+# ansible.cfg
+ansible.cfg
